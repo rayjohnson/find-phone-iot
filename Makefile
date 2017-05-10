@@ -27,9 +27,6 @@ $(STAGING_REQUIREMENTS_STAMP): $(SRC_DIR)/requirements.txt
 	pip install -r requirements.txt -t $(STAGING_DIRECTORY)
 	touch $@
 
-BUILD_DATE=$(shell git log --date=local -1 --format="@%ct")
-
-
 
 UPLOAD_CODE_STAMP=$(BUILD_DIR)/upload-stamp
 
@@ -39,11 +36,5 @@ $(UPLOAD_CODE_STAMP): $(OUTPUT_ZIP)
 
 upload: $(UPLOAD_CODE_STAMP)
 
-invoke: $(UPLOAD_CODE_STAMP)
-	aws lambda invoke \
-      --function-name findphone \
-      --invocation-type RequestResponse \
-      --payload file://example-payload.json
-
-.PHONY: all clean upload invoke
+.PHONY: all clean upload
 
