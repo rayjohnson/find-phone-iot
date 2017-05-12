@@ -41,9 +41,14 @@ def lambda_handler(event, context):
 
     # If you have bad credentials this will raise an exception
     iCloudApi = PyiCloudService(APPLE_ID, APPLE_PASSWORD)
-
+    print("DEBUG: " + str(dir(iCloudApi)))
 
     print("Looking for device \"" + DEVICE_NAME + "\" on apple id: \"" + APPLE_ID + "\"")
+
+    if iCloudApi.devices is None:
+        print("No devices could be found on account: \"" + APPLE_ID + "\"")
+        print(str(iCloudApi))
+        raise "No devices found"
 
     # Put into a dict by device name
     deviceDict = {}
@@ -61,9 +66,9 @@ def lambda_handler(event, context):
     print("Match: \"" + name + "\" with score: " + str(score))
 
     # Play the sound on the device if we get a good enough match
-    if score > 90
+    if score > 90:
         print("Playing sound on \"" + name + "\"")
         deviceDict[name].play_sound()
-    else
+    else:
         print("The DEVICE_NAME \"" + DEVICE_NAME + "\" could not be found on account")
 
